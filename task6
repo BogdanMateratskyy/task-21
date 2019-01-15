@@ -1,0 +1,15 @@
+drop table if exists products_external;
+create table products_external(product_id int(11), product_name varchar(45), product_description varchar(255), product_price float);
+
+
+sqoop export \
+--username "retail_dba" \
+--password "cloudera" \
+--connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+ --export-dir /user/hive/warehouse/task4.db/products_hive/ \
+--input-fields-terminated-by '\001' \
+--update-mode allowinsert \
+--update-key product_id \
+--columns "product_id,product_name,product_description,product_price" \
+--table products_external;
+

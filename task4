@@ -1,0 +1,21 @@
+create database if not exists task4;
+use task4;
+drop table if exists products_hive;
+
+create table if not exists products_hive (product_id int, product_category_id int, product_name string, product_description string, product_price float, product_image string);
+
+//////if needs import data inside hive database choose it ///////
+create table if not exists task4.products_hive as select * from task3.products;
+
+sqoop import \
+--connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+--username "retail_dba" \
+--password "cloudera" \
+--table products  \
+--check-column product_id \
+--incremental append \
+--last-value 0 \
+--hive-import \
+--hive-table products_hive \
+--hive-database task4;
+

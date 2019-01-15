@@ -1,0 +1,10 @@
+sqoop import \
+--connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+--username retail_dba \
+--password cloudera \
+--table orders \
+--as-textfile \
+--target-dir /user/cloudera/task2/text \
+--fields-terminated-by '\t' \
+--lines-terminated-by '\n'
+

@@ -1,0 +1,10 @@
+sqoop import \
+--connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+--username retail_dba \
+--password cloudera \
+--compression-codec=snappy \
+--table orders \
+--as-avrodatafile \
+--target-dir /user/cloudera/task1/orders \
+--fields-terminated-by '|'
+

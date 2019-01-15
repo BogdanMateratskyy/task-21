@@ -1,0 +1,26 @@
+create database if not exists task5;
+use task5;
+drop table if exists orders_hive;
+
+create table if not exists orders_hive (order_id int, order_date date, order_customer_id int, order_status string);
+
+//////if needs import data inside hive database choose it ///////
+create table if not exists task5.orders_hive as select * from task3.orders;
+
+sqoop job --delete orders_sqoop_job
+sqoop job \
+--create orders_sqoop_job \
+-- import \
+--connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+--username "retail_dba" \
+--password "cloudera" \
+--table orders  \
+--check-column order_id \
+--incremental append \
+--last-value 0 \
+--hive-import \
+--hive-table orders_hive \
+--hive-database task5;
+
+sqoop job --exec orders_sqoop_job
+
